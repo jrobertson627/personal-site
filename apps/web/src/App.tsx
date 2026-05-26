@@ -1,3 +1,5 @@
+const API = import.meta.env.VITE_API_URL;
+
 import { useEffect, useState } from "react"
 
 type ApiResponse = {
@@ -11,7 +13,7 @@ export default function App() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("/api/hello")
+        const res = await fetch(`{API}/api/hello`)
         const json = await res.json()
         setData(json)
       } catch (err) {
