@@ -1,6 +1,6 @@
 const API = import.meta.env.VITE_API_URL
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 type ApiResponse = {
   message: string
@@ -17,7 +17,7 @@ export default function App() {
         const json = await res.json()
         setData(json)
       } catch (err) {
-        console.error("API error:", err)
+        console.error('API error:', err)
       } finally {
         setLoading(false)
       }
@@ -32,28 +32,24 @@ export default function App() {
 
       {loading && <p>Loading...</p>}
 
-      {!loading && data && (
-        <p style={styles.message}>{data.message}</p>
-      )}
+      {!loading && data && <p style={styles.message}>{data.message}</p>}
 
-      {!loading && !data && (
-        <p style={{ color: "red" }}>Failed to load API</p>
-      )}
+      {!loading && !data && <p style={{ color: 'red' }}>Failed to load API</p>}
     </div>
   )
 }
 
 const styles: Record<string, React.CSSProperties> = {
   container: {
-    fontFamily: "system-ui, sans-serif",
-    padding: "2rem"
+    fontFamily: 'system-ui, sans-serif',
+    padding: '2rem',
   },
   title: {
-    fontSize: "2rem",
-    marginBottom: "1rem"
+    fontSize: '2rem',
+    marginBottom: '1rem',
   },
   message: {
-    fontSize: "1.2rem",
-    color: "green"
-  }
+    fontSize: '1.2rem',
+    color: 'green',
+  },
 }
