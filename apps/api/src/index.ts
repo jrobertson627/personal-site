@@ -1,28 +1,24 @@
-import Fastify from "fastify"
-import { helloRoutes } from "./routes/hello"
-import { corsPlugin } from "./plugins/cors"
+import { app } from "./config/server"
+import { env } from "./config/env"
+import { registerRoutes } from "./utils/registerRoutes"
+import { registerErrorHandler } from "./middleware/errorHandler"
+import { registerLogger } from "./middleware/logger"
+import { registerPlugins } from "./utils/registerPlugins"
+
+registerErrorHandler()
+registerLogger()
+
 
 async function buildServer() {
-  const app = Fastify({
-    logger: true
-  })
-
   // ─────────────────────────────
   // Plugins
   // ─────────────────────────────
-  await corsPlugin(app)
-
+  await registerPlugins(app)
+  
   // ─────────────────────────────
-  // Health check
+  // Routes
   // ─────────────────────────────
-  app.get("/health", async () => {
-    return { status: "ok" }
-  })
-
-  // ─────────────────────────────
-  // Example API route
-  // ─────────────────────────────
-  await helloRoutes(app)
+  await registerRoutes(app)
 
   return app
 }
