@@ -28,3 +28,9 @@ apps/api/data/
 
 # Tauri / Vite cache
 .vite/
+
+# TypeScript project-reference build output/cache (apps/web's tsconfig.node.json
+# emits vite.config.js/.d.ts as a side effect of `tsc -b`; not meant to be committed)
+*.tsbuildinfo
+apps/web/vite.config.js
+apps/web/vite.config.d.ts
