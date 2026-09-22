@@ -31,6 +31,17 @@ Two Render services deploy from this repo's `main` branch:
       HEAD` on main. Auto-deploy can silently stall (see above).
 - [ ] `NODE_ENV=production` is set on `personal-site` — this is required for
       the CORS allowlist (`ALLOWED_ORIGINS`, see below) to actually apply.
+- [ ] **SPA rewrite rule** on `personal-site-web` (Redirects/Rewrites tab):
+      Source `/*` → Destination `/index.html` → Action `Rewrite`. Without
+      this, any direct visit/refresh/bookmark on a client-side route
+      (`/blog`, `/resume`, every post URL — i.e. almost everything in
+      `sitemap.xml` except the homepage) 404s. **Double-check the
+      Destination Path is exactly `/index.html`** — a wrong value here
+      (typo, stray whitespace, wrong case) doesn't error, it silently
+      serves a 200 with a 0-byte body instead of the real page, which is
+      worse than the 404 it replaces and easy to miss if you only check
+      the status code. Verify with the smoke test below, which checks
+      body size, not just status.
 
 ## Required/expected environment variables (`personal-site` service)
 
@@ -79,6 +90,20 @@ What's already in place, so the checklist below doesn't get re-litigated:
   and GitHub emails the repo owner automatically when a scheduled workflow
   fails.
 
+**Known bug (unresolved)**: the frontend calls the API via relative URLs
+(`/api/github/profile`, `/api/contact`, `/api/telemetry/event`), which
+resolve against the frontend's own origin (`jessicalrobertson.com`, the
+static site) rather than the API's actual origin
+(`api.jessicalrobertson.com`, a separate Render service). There is no
+proxy between the two, so every API-backed feature — GitHub section,
+telemetry, the contact form — has never actually worked in production,
+not just the GitHub section. The API's CORS config (`ALLOWED_ORIGINS`)
+already anticipates cross-origin calls from the frontend's domain, which
+is a strong signal this was the intended design and the frontend simply
+never got updated to call the API's absolute URL. Needs a fix (an
+environment-aware API base URL — relative in dev so Vite's proxy still
+works, absolute in production) before this is resolved.
+
 **Known limitation**: `personal-site` has no persistent disk, so
 `apps/api/data/telemetry.jsonl` (and therefore `/api/telemetry/summary`) is
 wiped on every deploy/restart — it only reflects the current instance's
@@ -92,10 +117,13 @@ database) — not worth the added cost/complexity for a personal site today.
 
 ```bash
 curl -s https://jessicalrobertson.com | grep -q "Jessica Robertson" && echo "frontend OK"
+curl -s https://jessicalrobertson.com/blog | wc -c   # should roughly match the homepage's byte size, not 0
 curl -s https://api.jessicalrobertson.com/health
-curl -s https://jessicalrobertson.com/api/github/profile
+curl -s https://api.jessicalrobertson.com/api/github/profile
 ```
 
-The last one should return `{"success":true,...}` — if it 404s, the API
-deploy didn't actually match the frontend (see auto-deploy trigger note
-above).
+The `/blog` check exists because a broken SPA rewrite rule returns a
+`200` with an empty body, not a 4xx — checking status code alone isn't
+enough. The last command hits the API's own domain directly rather than
+`jessicalrobertson.com/api/...`, since that path doesn't currently reach
+the API at all (see the known bug above).
