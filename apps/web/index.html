@@ -11,13 +11,15 @@
 
     <!-- Basic meta. This is the fallback any non-JS-executing crawler or
          link-unfurl bot sees; JS-executing visitors get per-route titles
-         and descriptions instead (see Home.tsx, BlogPost.tsx, etc. —
-         React 19 hoists <title>/<meta> rendered anywhere in the tree). -->
+         and descriptions instead, applied via useDocumentMeta (see
+         Home.tsx, BlogPost.tsx, etc.). -->
     <meta
       name="description"
       content="Jessica Robertson is a software engineer building secure, scalable full-stack applications. Portfolio, projects, and writing."
     />
-    <link rel="canonical" href="/" />
+    <!-- No canonical link yet — it needs an absolute URL and there's no
+         production domain until deployment (#27-29). Add
+         <link rel="canonical" href="https://..."/> once one exists. -->
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />
