@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { Container } from '@/components/ui'
 import { useScrolled } from '@/hooks/useScrolled'
 import { useActiveSection } from '@/hooks/useActiveSection'
+import { ThemeToggle } from '@/components/common/ThemeToggle'
 
 const links = [
   { id: 'home', label: 'Home' },
@@ -97,17 +98,21 @@ export function Nav() {
           </ul>
         </nav>
 
-        <button
-          ref={toggleRef}
-          type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <CloseIcon /> : <MenuIcon />}
-        </button>
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
+
+          <button
+            ref={toggleRef}
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
       </Container>
 
       <AnimatePresence>

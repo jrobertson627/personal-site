@@ -12,7 +12,7 @@ export function ProjectCard({ project, onOpen }: { project: Project; onOpen: () 
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-serif text-xl font-semibold">{project.title}</h3>
         {project.status === 'current' && (
-          <span className="shrink-0 rounded-full bg-accent-50 px-2 py-0.5 text-xs font-medium text-accent-700">
+          <span className="shrink-0 rounded-full bg-accent-50 px-2 py-0.5 text-xs font-medium text-accent-700 dark:bg-accent-900 dark:text-accent-200">
             In progress
           </span>
         )}

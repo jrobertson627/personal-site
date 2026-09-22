@@ -132,7 +132,7 @@ export function Contact() {
                 className={`${fieldClasses} ${fieldErrors.name ? 'border-red-500' : 'border-border'}`}
               />
               {fieldErrors.name && (
-                <p id="contact-name-error" className="text-sm text-red-600">
+                <p id="contact-name-error" className="text-sm text-red-600 dark:text-red-400">
                   {fieldErrors.name}
                 </p>
               )}
@@ -159,7 +159,7 @@ export function Contact() {
                 className={`${fieldClasses} ${fieldErrors.email ? 'border-red-500' : 'border-border'}`}
               />
               {fieldErrors.email && (
-                <p id="contact-email-error" className="text-sm text-red-600">
+                <p id="contact-email-error" className="text-sm text-red-600 dark:text-red-400">
                   {fieldErrors.email}
                 </p>
               )}
@@ -185,7 +185,7 @@ export function Contact() {
                 className={`${fieldClasses} resize-none ${fieldErrors.message ? 'border-red-500' : 'border-border'}`}
               />
               {fieldErrors.message && (
-                <p id="contact-message-error" className="text-sm text-red-600">
+                <p id="contact-message-error" className="text-sm text-red-600 dark:text-red-400">
                   {fieldErrors.message}
                 </p>
               )}
@@ -201,12 +201,12 @@ export function Contact() {
 
             <div role="status" aria-live="polite">
               {status === 'success' && (
-                <p className="text-sm text-emerald-600">
+                <p className="text-sm text-emerald-600 dark:text-emerald-400">
                   Message sent — I&apos;ll get back to you soon.
                 </p>
               )}
               {status === 'error' && formError && (
-                <p className="text-sm text-red-600">{formError}</p>
+                <p className="text-sm text-red-600 dark:text-red-400">{formError}</p>
               )}
             </div>
           </form>

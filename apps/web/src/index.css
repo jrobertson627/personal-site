@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Ties Tailwind's `dark:` variant to [data-theme="dark"] (set by ThemeProvider)
+   instead of the default prefers-color-scheme media query, so the toggle in
+   #15 can override the system preference. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 @theme {
   /* Fonts */
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -127,6 +132,13 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
 
 h1,
