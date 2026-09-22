@@ -17,10 +17,15 @@ Two Render services deploy from this repo's `main` branch:
 ## Render settings to keep in sync
 
 - [ ] **Auto-deploy trigger**: `personal-site-web` deploys on every commit.
-      `personal-site` is set to deploy only when GitHub status checks pass —
-      since this repo has no CI configured (see #28), that condition is
-      never met and it silently never redeploys. Either switch it to
-      "on commit" in the Render dashboard, or land #28 first.
+      `personal-site` is set to deploy only when GitHub status checks pass.
+      That's the right setting *once CI exists* (#28) — it was broken
+      before because there was no check to gate on, so the condition was
+      never met and the API silently never redeployed (stuck on a May
+      commit for months). Now that `.github/workflows/ci.yml` reports a
+      real status on every push to main, this should start working as
+      soon as the CI workflow runs once on main — no dashboard change
+      needed. Confirm after merge that a push to main actually triggers
+      a new `personal-site` deploy.
 - [ ] After any deploy of `personal-site`, confirm the deployed commit SHA
       (Render dashboard → service → latest deploy) matches `git rev-parse
       HEAD` on main. Auto-deploy can silently stall (see above).
