@@ -10,6 +10,8 @@ const contactSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(200),
   email: z.string().trim().email('Enter a valid email address'),
   message: z.string().trim().min(1, 'Message is required').max(5000),
+  // Honeypot: kept out of sight (see the hidden field below) so only bots fill it in.
+  company: z.string().optional(),
 })
 
 const reveal: Variants = {
@@ -21,7 +23,7 @@ type ContactFormValues = z.infer<typeof contactSchema>
 type FieldErrors = Partial<Record<keyof ContactFormValues, string>>
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
-const initialValues: ContactFormValues = { name: '', email: '', message: '' }
+const initialValues: ContactFormValues = { name: '', email: '', message: '', company: '' }
 
 const fieldClasses =
   'w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground'
@@ -111,6 +113,21 @@ export function Contact() {
             noValidate
             className="flex w-full max-w-md flex-col gap-4"
           >
+            {/* Honeypot — invisible to sighted users and screen readers, off the tab order.
+                Any bot that fills in every field it can find will trip this. */}
+            <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
+              <label htmlFor="contact-company">Company</label>
+              <input
+                id="contact-company"
+                name="company"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={values.company}
+                onChange={(e) => updateField('company', e.target.value)}
+              />
+            </div>
+
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="contact-name"

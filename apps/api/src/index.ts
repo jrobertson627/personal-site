@@ -2,11 +2,9 @@ import { app } from "./config/server"
 import { env } from "./config/env"
 import { registerRoutes } from "./utils/registerRoutes"
 import { registerErrorHandler } from "./middleware/errorHandler"
-import { registerLogger } from "./middleware/logger"
 import { registerPlugins } from "./utils/registerPlugins"
 
 registerErrorHandler()
-registerLogger()
 
 
 async function buildServer() {
