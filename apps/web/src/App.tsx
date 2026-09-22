@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Button, Card, Container, Section } from '@/components/ui'
 import { Nav } from '@/components/layout/Nav'
+import { Hero } from '@/components/sections/Hero'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -104,15 +105,7 @@ export default function App() {
       <Nav />
 
       <main id="main">
-        <Section id="home" className="flex min-h-[80vh] items-center">
-          <Container className="flex flex-col gap-4">
-            <span className="text-sm font-medium text-accent">Software Engineer</span>
-            <h1 className="font-serif text-5xl font-semibold tracking-tight">Jessica Robertson</h1>
-            <p className="max-w-xl text-lg text-muted-foreground">
-              Portfolio site, under construction — this hero is a placeholder until issue #6 builds the real one.
-            </p>
-          </Container>
-        </Section>
+        <Hero />
 
         <PlaceholderSection id="about" title="About" note="Coming in issue #7." muted />
         <PlaceholderSection id="skills" title="Skills" note="Coming in issue #8." />
