@@ -1,21 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 import { Container } from '@/components/ui'
 import { useScrolled } from '@/hooks/useScrolled'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 
-const links = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
+type NavLink = { type: 'anchor'; id: string; label: string } | { type: 'route'; to: string; label: string }
+
+const navLinks: NavLink[] = [
+  { type: 'anchor', id: 'home', label: 'Home' },
+  { type: 'anchor', id: 'about', label: 'About' },
+  { type: 'anchor', id: 'skills', label: 'Skills' },
+  { type: 'anchor', id: 'experience', label: 'Experience' },
+  { type: 'anchor', id: 'projects', label: 'Projects' },
+  { type: 'route', to: '/blog', label: 'Blog' },
+  { type: 'anchor', id: 'contact', label: 'Contact' },
 ]
 
-const sectionIds = links.map((link) => link.id)
+const sectionIds = navLinks.filter((link) => link.type === 'anchor').map((link) => link.id)
 
 function MenuIcon() {
   return (
@@ -36,7 +40,9 @@ function CloseIcon() {
 export function Nav() {
   const [open, setOpen] = useState(false)
   const scrolled = useScrolled()
-  const activeId = useActiveSection(sectionIds)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
+  const activeId = useActiveSection(isHome ? sectionIds : [])
   const toggleRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = useReducedMotion()
@@ -62,6 +68,44 @@ export function Nav() {
     }
   }, [open])
 
+  function renderLink(link: NavLink, variant: 'desktop' | 'mobile') {
+    const isActive = link.type === 'route' ? location.pathname.startsWith(link.to) : isHome && activeId === link.id
+
+    const className =
+      variant === 'desktop'
+        ? clsx(
+            'rounded-md border-b-2 px-3 py-2 text-sm transition-colors',
+            isActive
+              ? 'border-accent font-semibold text-accent'
+              : 'border-transparent text-muted-foreground hover:text-foreground',
+          )
+        : clsx('block rounded-md px-3 py-3 text-base', isActive ? 'font-semibold text-accent' : 'text-foreground')
+
+    if (link.type === 'route') {
+      return (
+        <Link
+          to={link.to}
+          aria-current={isActive ? 'page' : undefined}
+          onClick={variant === 'mobile' ? () => setOpen(false) : undefined}
+          className={className}
+        >
+          {link.label}
+        </Link>
+      )
+    }
+
+    return (
+      <a
+        href={isHome ? `#${link.id}` : `/#${link.id}`}
+        aria-current={isActive ? 'page' : undefined}
+        onClick={variant === 'mobile' ? () => setOpen(false) : undefined}
+        className={className}
+      >
+        {link.label}
+      </a>
+    )
+  }
+
   return (
     <header
       className={clsx(
@@ -70,31 +114,21 @@ export function Nav() {
       )}
     >
       <Container className="flex h-16 items-center justify-between">
-        <a href="#home" className="font-serif text-lg font-semibold">
-          Jessica Robertson
-        </a>
+        {isHome ? (
+          <a href="#home" className="font-serif text-lg font-semibold">
+            Jessica Robertson
+          </a>
+        ) : (
+          <Link to="/" className="font-serif text-lg font-semibold">
+            Jessica Robertson
+          </Link>
+        )}
 
         <nav aria-label="Primary">
           <ul className="hidden items-center gap-1 md:flex">
-            {links.map((link) => {
-              const isActive = activeId === link.id
-              return (
-                <li key={link.id}>
-                  <a
-                    href={`#${link.id}`}
-                    aria-current={isActive ? 'page' : undefined}
-                    className={clsx(
-                      'rounded-md border-b-2 px-3 py-2 text-sm transition-colors',
-                      isActive
-                        ? 'border-accent font-semibold text-accent'
-                        : 'border-transparent text-muted-foreground hover:text-foreground',
-                    )}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              )
-            })}
+            {navLinks.map((link) => (
+              <li key={link.type === 'route' ? link.to : link.id}>{renderLink(link, 'desktop')}</li>
+            ))}
           </ul>
         </nav>
 
@@ -127,24 +161,9 @@ export function Nav() {
             className="overflow-hidden border-t border-border bg-background md:hidden"
           >
             <ul className="flex flex-col px-4 py-2">
-              {links.map((link) => {
-                const isActive = activeId === link.id
-                return (
-                  <li key={link.id}>
-                    <a
-                      href={`#${link.id}`}
-                      aria-current={isActive ? 'page' : undefined}
-                      onClick={() => setOpen(false)}
-                      className={clsx(
-                        'block rounded-md px-3 py-3 text-base',
-                        isActive ? 'font-semibold text-accent' : 'text-foreground',
-                      )}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                )
-              })}
+              {navLinks.map((link) => (
+                <li key={link.type === 'route' ? link.to : link.id}>{renderLink(link, 'mobile')}</li>
+              ))}
             </ul>
           </motion.div>
         )}

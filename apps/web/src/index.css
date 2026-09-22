@@ -156,3 +156,149 @@ h6 {
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
+
+/*
+  Styles for markdown rendered via react-markdown (blog posts, #19).
+  react-markdown outputs plain semantic HTML with no styling of its own,
+  so this maps that output onto the site's existing design tokens rather
+  than pulling in a separate prose plugin or theme.
+*/
+.prose-content {
+  color: var(--color-foreground);
+  line-height: 1.7;
+}
+
+.prose-content > * + * {
+  margin-top: 1.25em;
+}
+
+.prose-content h2,
+.prose-content h3,
+.prose-content h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  margin-top: 1.75em;
+}
+
+.prose-content h2 {
+  font-size: 1.5rem;
+}
+.prose-content h3 {
+  font-size: 1.25rem;
+}
+.prose-content h4 {
+  font-size: 1.125rem;
+}
+
+.prose-content p {
+  color: var(--color-muted-foreground);
+}
+
+.prose-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-content ul,
+.prose-content ol {
+  padding-left: 1.5em;
+  color: var(--color-muted-foreground);
+}
+.prose-content ul {
+  list-style: disc;
+}
+.prose-content ol {
+  list-style: decimal;
+}
+.prose-content li + li {
+  margin-top: 0.5em;
+}
+
+.prose-content blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: 1em;
+  color: var(--color-muted-foreground);
+  font-style: italic;
+}
+
+.prose-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.125em 0.375em;
+}
+
+.prose-content pre {
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1em;
+  overflow-x: auto;
+}
+
+.prose-content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875em;
+}
+
+.prose-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.prose-content th,
+.prose-content td {
+  border: 1px solid var(--color-border);
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+.prose-content th {
+  font-weight: 600;
+}
+
+.prose-content hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+/* highlight.js (via rehype-highlight) token colors, mapped to our own
+   accent/neutral palette instead of importing a separate theme. */
+.hljs-keyword,
+.hljs-tag,
+.hljs-selector-tag,
+.hljs-built_in {
+  color: var(--color-accent);
+}
+.hljs-string,
+.hljs-attr,
+.hljs-attribute {
+  color: var(--color-neutral-600);
+}
+[data-theme='dark'] .hljs-string,
+[data-theme='dark'] .hljs-attr,
+[data-theme='dark'] .hljs-attribute {
+  color: var(--color-neutral-300);
+}
+.hljs-comment,
+.hljs-quote {
+  color: var(--color-muted-foreground);
+  font-style: italic;
+}
+.hljs-number,
+.hljs-literal {
+  color: var(--color-accent-600);
+}
+[data-theme='dark'] .hljs-number,
+[data-theme='dark'] .hljs-literal {
+  color: var(--color-accent-300);
+}
+.hljs-function,
+.hljs-title,
+.hljs-name {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
