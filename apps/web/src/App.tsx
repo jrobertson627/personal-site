@@ -5,6 +5,7 @@ import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
 import { Skills } from '@/components/sections/Skills'
 import { Experience } from '@/components/sections/Experience'
+import { Contact } from '@/components/sections/Contact'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -113,7 +114,7 @@ export default function App() {
         <Skills />
         <Experience />
         <PlaceholderSection id="projects" title="Projects" note="Coming in issue #11." />
-        <PlaceholderSection id="contact" title="Contact" note="Coming in issue #10." muted />
+        <Contact />
 
         <Section>
           <Container className="flex flex-col gap-2 border-t border-border pt-10">
