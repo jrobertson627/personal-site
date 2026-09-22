@@ -1,0 +1,23 @@
+name: Uptime check
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    name: Check frontend and API are reachable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Frontend (jessicalrobertson.com)
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 https://jessicalrobertson.com)
+          echo "status: $status"
+          test "$status" = "200"
+
+      - name: API health (api.jessicalrobertson.com/health)
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 https://api.jessicalrobertson.com/health)
+          echo "status: $status"
+          test "$status" = "200"

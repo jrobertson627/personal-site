@@ -1,11 +1,19 @@
 import { appendFile, mkdir, readFile } from "node:fs/promises"
 import { existsSync } from "node:fs"
 import path from "node:path"
+import { app } from "../config/server"
 
 // Self-hosted telemetry, deliberately minimal: no IP addresses, no user
 // agents, no cookies, no third-party service. Just the events themselves,
 // appended to a local JSONL file. Good enough for a personal site's own
 // traffic, and nothing here is individually identifying.
+//
+// The local file lives on the API service's ephemeral disk (no persistent
+// volume provisioned) — it's wiped on every deploy/restart, which happens
+// often on this project. Every event is also logged through the app's
+// structured logger (#29) so it survives in Render's own log retention
+// even when the file doesn't; /api/telemetry/summary reads only the file
+// and so reflects just the current instance's uptime.
 
 const DATA_DIR = path.join(process.cwd(), "data")
 const LOG_PATH = path.join(DATA_DIR, "telemetry.jsonl")
@@ -25,8 +33,10 @@ async function ensureLogFile() {
 }
 
 export async function recordEvent(event: TelemetryEvent): Promise<void> {
-  await ensureLogFile()
   const stored: StoredEvent = { ...event, timestamp: new Date().toISOString() }
+  app.log.info({ telemetryEvent: stored }, "telemetry event")
+
+  await ensureLogFile()
   await appendFile(LOG_PATH, JSON.stringify(stored) + "\n", "utf-8")
 }
 

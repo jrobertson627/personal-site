@@ -59,6 +59,35 @@ Should already exist; re-verify with `list_dns_records` after any change:
 - Two `TXT` records on `_acme-challenge` (Render's cert validation — don't
   remove while a custom domain + cert is active)
 
+## Observability (#29)
+
+What's already in place, so the checklist below doesn't get re-litigated:
+
+- **Request logging**: Fastify's built-in pino logger (`logger: true`) logs
+  every request/response with `reqId`, method, path, status, and
+  `responseTime` — no extra setup. Viewable via Render's `list_logs` /
+  dashboard.
+- **Frontend error tracking**: `window.onerror` / `unhandledrejection` +
+  a React ErrorBoundary, all reported through telemetry (#21).
+- **Performance metrics**: Render's dashboard has CPU/memory/request-count/
+  latency out of the box. Web Vitals (CLS/FCP/INP/LCP/TTFB) are collected
+  client-side via telemetry.
+- **Deployment notifications**: both Render services have `notifyOnFail`
+  set to their default, which emails on a failed deploy.
+- **Uptime monitoring**: `.github/workflows/uptime.yml` curls the frontend
+  and `/health` every 30 minutes. A failed run shows up in the Actions tab,
+  and GitHub emails the repo owner automatically when a scheduled workflow
+  fails.
+
+**Known limitation**: `personal-site` has no persistent disk, so
+`apps/api/data/telemetry.jsonl` (and therefore `/api/telemetry/summary`) is
+wiped on every deploy/restart — it only reflects the current instance's
+uptime. Every event is now also written through the structured logger, so
+the raw data survives in Render's log retention even when the file doesn't;
+there's just no summary view over the historical log data. Revisit if this
+ever needs to be durable (e.g. a Render persistent disk, or a proper
+database) — not worth the added cost/complexity for a personal site today.
+
 ## Post-deploy smoke test
 
 ```bash
