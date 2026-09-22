@@ -32,6 +32,14 @@ export function getPostBySlug(slug: string): Post | undefined {
   return posts.find((post) => post.slug === slug)
 }
 
+// `posts` is sorted newest-first, so the post right before this one in the
+// array is newer, and the one right after is older.
+export function getAdjacentPosts(slug: string): { newer?: Post; older?: Post } {
+  const index = posts.findIndex((post) => post.slug === slug)
+  if (index === -1) return {}
+  return { newer: posts[index - 1], older: posts[index + 1] }
+}
+
 export function formatPostDate(date: string): string {
   if (!date) return ''
   return new Date(date).toLocaleDateString('en-US', {

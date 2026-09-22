@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import { Container, Section } from '@/components/ui'
-import { getPostBySlug, formatPostDate } from '@/lib/posts'
+import { getPostBySlug, getAdjacentPosts, formatPostDate } from '@/lib/posts'
 import { useDocumentMeta } from '@/hooks/useDocumentMeta'
 
 export function BlogPost() {
@@ -24,6 +24,8 @@ export function BlogPost() {
   if (!post) {
     return <Navigate to="/blog" replace />
   }
+
+  const { newer, older } = getAdjacentPosts(post.slug)
 
   return (
     <Section className="min-h-[70vh]">
@@ -60,6 +62,33 @@ export function BlogPost() {
             {post.content}
           </ReactMarkdown>
         </div>
+
+        {(newer || older) && (
+          <nav aria-label="More posts" className="flex justify-between gap-4 border-t border-border pt-6 text-sm">
+            {newer ? (
+              <Link
+                to={`/blog/${newer.slug}`}
+                className="flex flex-col gap-1 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <span>← Newer</span>
+                <span className="font-medium text-foreground">{newer.title}</span>
+              </Link>
+            ) : (
+              <span />
+            )}
+            {older ? (
+              <Link
+                to={`/blog/${older.slug}`}
+                className="flex flex-col gap-1 text-right text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <span>Older →</span>
+                <span className="font-medium text-foreground">{older.title}</span>
+              </Link>
+            ) : (
+              <span />
+            )}
+          </nav>
+        )}
       </Container>
     </Section>
   )
