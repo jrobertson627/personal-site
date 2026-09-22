@@ -17,6 +17,7 @@ import './index.css'
 // Home and never visit /blog) shouldn't have to download up front.
 const BlogList = lazy(() => import('@/pages/BlogList').then((m) => ({ default: m.BlogList })))
 const BlogPost = lazy(() => import('@/pages/BlogPost').then((m) => ({ default: m.BlogPost })))
+const Resume = lazy(() => import('@/pages/Resume').then((m) => ({ default: m.Resume })))
 
 window.addEventListener('error', (event) => {
   trackError(event.message, event.error?.stack)
@@ -39,6 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route path="/" element={<Home />} />
               <Route path="/blog" element={<BlogList />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/resume" element={<Resume />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
