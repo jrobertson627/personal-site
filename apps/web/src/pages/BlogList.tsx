@@ -1,8 +1,18 @@
 import { Link } from 'react-router-dom'
 import { Container, Section } from '@/components/ui'
 import { posts, formatPostDate } from '@/lib/posts'
+import { useDocumentMeta } from '@/hooks/useDocumentMeta'
+
+const DESCRIPTION = 'Notes and write-ups from Jessica Robertson on building software.'
 
 export function BlogList() {
+  useDocumentMeta('Writing — Jessica Robertson', [
+    { name: 'description', content: DESCRIPTION },
+    { property: 'og:title', content: 'Writing — Jessica Robertson' },
+    { property: 'og:description', content: DESCRIPTION },
+    { property: 'og:type', content: 'website' },
+  ])
+
   return (
     <Section className="min-h-[70vh]">
       <Container className="flex flex-col gap-10">

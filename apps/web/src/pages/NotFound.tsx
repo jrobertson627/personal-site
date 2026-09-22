@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Container, Section } from '@/components/ui'
 import { buttonStyles } from '@/components/ui/buttonStyles'
+import { useDocumentMeta } from '@/hooks/useDocumentMeta'
 
 export function NotFound() {
+  useDocumentMeta('Page not found — Jessica Robertson', [{ name: 'robots', content: 'noindex' }])
+
   return (
     <Section className="flex min-h-[70vh] items-center">
       <Container className="flex flex-col items-start gap-4">

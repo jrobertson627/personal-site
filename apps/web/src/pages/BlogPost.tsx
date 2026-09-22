@@ -4,10 +4,22 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import { Container, Section } from '@/components/ui'
 import { getPostBySlug, formatPostDate } from '@/lib/posts'
+import { useDocumentMeta } from '@/hooks/useDocumentMeta'
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
   const post = slug ? getPostBySlug(slug) : undefined
+
+  // Hooks must run unconditionally, so this comes before the early return
+  // below — falls back to generic values when there's no post to redirect
+  // away from anyway.
+  useDocumentMeta(post ? `${post.title} — Jessica Robertson` : 'Jessica Robertson', [
+    { name: 'description', content: post?.excerpt ?? '' },
+    { property: 'og:title', content: post?.title ?? 'Jessica Robertson' },
+    { property: 'og:description', content: post?.excerpt ?? '' },
+    { property: 'og:type', content: 'article' },
+    { property: 'article:published_time', content: post?.date ?? '' },
+  ])
 
   if (!post) {
     return <Navigate to="/blog" replace />

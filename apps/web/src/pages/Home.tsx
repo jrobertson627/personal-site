@@ -7,6 +7,7 @@ import { Experience } from '@/components/sections/Experience'
 import { Contact } from '@/components/sections/Contact'
 import { Projects } from '@/components/sections/Projects'
 import { GitHub } from '@/components/sections/GitHub'
+import { useDocumentMeta } from '@/hooks/useDocumentMeta'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -76,7 +77,17 @@ function StyleGuideSection({
   )
 }
 
+const DESCRIPTION =
+  'Jessica Robertson is a software engineer building secure, scalable full-stack applications. Portfolio, projects, and writing.'
+
 export function Home() {
+  useDocumentMeta('Jessica Robertson — Software Engineer', [
+    { name: 'description', content: DESCRIPTION },
+    { property: 'og:title', content: 'Jessica Robertson — Software Engineer' },
+    { property: 'og:description', content: DESCRIPTION },
+    { property: 'og:type', content: 'website' },
+  ])
+
   return (
     <>
       <Hero />
