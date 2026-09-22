@@ -126,7 +126,7 @@ export function Projects() {
                 type="button"
                 onClick={() => setSelectedId(null)}
                 aria-label="Close"
-                className="shrink-0 rounded-md p-1.5 text-muted-foreground hover:bg-background hover:text-foreground"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-background hover:text-foreground"
               >
                 <CloseIcon />
               </button>

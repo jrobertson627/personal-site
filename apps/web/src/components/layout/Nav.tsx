@@ -104,7 +104,7 @@ export function Nav() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}

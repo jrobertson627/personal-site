@@ -48,7 +48,7 @@ export function About() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={reveal}
-          className="flex flex-col items-start gap-10 lg:flex-row lg:items-center lg:gap-16"
+          className="flex flex-col items-start gap-10 md:flex-row md:gap-16"
         >
           <Avatar />
 
