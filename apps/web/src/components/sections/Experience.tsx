@@ -60,7 +60,7 @@ export function Experience() {
       <Container className="flex flex-col gap-10">
         <h2 className="font-serif text-3xl font-semibold sm:text-4xl">Experience</h2>
 
-        <ol className="relative flex flex-col gap-12 border-l-2 border-border pl-10">
+        <ol className="relative flex max-w-2xl flex-col gap-12 border-l-2 border-border pl-10">
           {entries.map((entry, i) => (
             <motion.li
               key={`${entry.title}-${entry.org}`}
