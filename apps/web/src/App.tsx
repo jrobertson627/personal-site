@@ -6,6 +6,7 @@ import { About } from '@/components/sections/About'
 import { Skills } from '@/components/sections/Skills'
 import { Experience } from '@/components/sections/Experience'
 import { Contact } from '@/components/sections/Contact'
+import { Projects } from '@/components/sections/Projects'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -56,27 +57,6 @@ function Swatch({ label, className }: { label: string; className: string }) {
   )
 }
 
-function PlaceholderSection({
-  id,
-  title,
-  note,
-  muted,
-}: {
-  id: string
-  title: string
-  note: string
-  muted?: boolean
-}) {
-  return (
-    <Section id={id} muted={muted} className="flex min-h-[70vh] items-center">
-      <Container>
-        <h2 className="font-serif text-3xl font-semibold sm:text-4xl">{title}</h2>
-        <p className="mt-2 text-muted-foreground">{note}</p>
-      </Container>
-    </Section>
-  )
-}
-
 function StyleGuideSection({
   title,
   muted,
@@ -113,7 +93,7 @@ export default function App() {
         <About />
         <Skills />
         <Experience />
-        <PlaceholderSection id="projects" title="Projects" note="Coming in issue #11." />
+        <Projects />
         <Contact />
 
         <Section>
