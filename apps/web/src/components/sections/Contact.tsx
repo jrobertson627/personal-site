@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { Button, Container, Section } from '@/components/ui'
 import { SocialLinks } from '@/components/common/SocialLinks'
+import { trackCtaClick } from '@/lib/telemetry'
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(200),
@@ -74,6 +75,7 @@ export function Contact() {
 
       setStatus('success')
       setValues(initialValues)
+      trackCtaClick('contact_form_submit')
     } catch (err) {
       setStatus('error')
       setFormError(

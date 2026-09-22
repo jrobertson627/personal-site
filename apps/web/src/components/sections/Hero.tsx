@@ -3,6 +3,7 @@ import type { Variants } from 'framer-motion'
 import { Container, Section } from '@/components/ui'
 import { buttonStyles } from '@/components/ui/buttonStyles'
 import { SocialLinks } from '@/components/common/SocialLinks'
+import { trackCtaClick } from '@/lib/telemetry'
 
 const container: Variants = {
   hidden: {},
@@ -62,10 +63,18 @@ export function Hero() {
           </motion.p>
 
           <motion.div variants={item} className="flex flex-wrap items-center gap-4">
-            <a href="#projects" className={buttonStyles({ variant: 'primary', size: 'lg' })}>
+            <a
+              href="#projects"
+              onClick={() => trackCtaClick('hero_view_my_work')}
+              className={buttonStyles({ variant: 'primary', size: 'lg' })}
+            >
               View my work
             </a>
-            <a href="#contact" className={buttonStyles({ variant: 'secondary', size: 'lg' })}>
+            <a
+              href="#contact"
+              onClick={() => trackCtaClick('hero_get_in_touch')}
+              className={buttonStyles({ variant: 'secondary', size: 'lg' })}
+            >
               Get in touch
             </a>
           </motion.div>

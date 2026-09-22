@@ -1,9 +1,14 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Nav } from './Nav'
+import { trackPageview } from '@/lib/telemetry'
 
 export function Layout() {
   const location = useLocation()
+
+  useEffect(() => {
+    trackPageview(location.pathname)
+  }, [location.pathname])
 
   useEffect(() => {
     if (!location.hash) return

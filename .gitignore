@@ -18,6 +18,9 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
+# Runtime data (self-hosted telemetry log, #21)
+apps/api/data/
+
 # OS / editor junk
 .DS_Store
 .vscode/

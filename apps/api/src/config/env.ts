@@ -10,6 +10,7 @@ const envSchema = z.object({
   CONTACT_TO_EMAIL: z.string().default("jessicarobertson627@gmail.com"),
   CONTACT_FROM_EMAIL: z.string().default("onboarding@resend.dev"),
   GITHUB_USERNAME: z.string().default("jrobertson627"),
+  TELEMETRY_ADMIN_KEY: z.string().optional(),
 })
 
 export const env = envSchema.parse(process.env)
