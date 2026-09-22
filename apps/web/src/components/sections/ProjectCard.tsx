@@ -4,7 +4,7 @@ import { projectVisuals } from './ProjectVisuals'
 
 export function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
   return (
-    <Card className="group flex flex-col gap-3 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-md">
+    <Card className="group flex flex-col gap-3 transition duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-md">
       {projectVisuals[project.id] && (
         <div className="overflow-hidden rounded-md border border-border">{projectVisuals[project.id]}</div>
       )}
