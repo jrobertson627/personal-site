@@ -6,6 +6,7 @@ import { Skills } from '@/components/sections/Skills'
 import { Experience } from '@/components/sections/Experience'
 import { Contact } from '@/components/sections/Contact'
 import { Projects } from '@/components/sections/Projects'
+import { GitHub } from '@/components/sections/GitHub'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -83,6 +84,7 @@ export function Home() {
       <Skills />
       <Experience />
       <Projects />
+      <GitHub />
       <Contact />
 
       <Section>
