@@ -3,6 +3,7 @@ import { Button, Card, Container, Section } from '@/components/ui'
 import { Nav } from '@/components/layout/Nav'
 import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
+import { Skills } from '@/components/sections/Skills'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -108,8 +109,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <About />
-
-        <PlaceholderSection id="skills" title="Skills" note="Coming in issue #8." />
+        <Skills />
         <PlaceholderSection id="experience" title="Experience" note="Coming in issue #9." muted />
         <PlaceholderSection id="projects" title="Projects" note="Coming in issue #11." />
         <PlaceholderSection id="contact" title="Contact" note="Coming in issue #10." muted />
