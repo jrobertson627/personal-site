@@ -1,35 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { Card, Container, Section } from '@/components/ui'
-
-type SkillCategory = {
-  title: string
-  skills: string[]
-}
-
-const categories: SkillCategory[] = [
-  {
-    title: 'Frontend',
-    skills: ['TypeScript', 'React', 'Next.js', 'Salesforce Lightning Web Components'],
-  },
-  {
-    title: 'Backend',
-    skills: [
-      'Python',
-      'SQL',
-      'Scala',
-      'FastAPI',
-      'PostgreSQL',
-      'REST APIs',
-      'Row-level security',
-      'Multi-tenant authorization design',
-    ],
-  },
-  {
-    title: 'Tooling & DevOps',
-    skills: ['Docker', 'Kubernetes', 'GitLab', 'CI/CD', 'Playwright', 'AI-assisted planning & code generation'],
-  },
-]
+import { skillCategories as categories } from '@/data/resume'
 
 const card: Variants = {
   hidden: { opacity: 0, y: 24 },

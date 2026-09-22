@@ -109,7 +109,7 @@ export function Nav() {
   return (
     <header
       className={clsx(
-        'sticky top-0 z-50 bg-background/80 backdrop-blur transition-shadow duration-200',
+        'sticky top-0 z-50 bg-background/80 backdrop-blur transition-shadow duration-200 print:hidden',
         scrolled ? 'border-b border-border shadow-sm' : 'border-b border-transparent',
       )}
     >

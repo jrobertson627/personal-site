@@ -1,47 +1,9 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { Container, Section } from '@/components/ui'
+import { workExperience, education } from '@/data/resume'
 
-type TimelineEntry = {
-  title: string
-  org: string
-  period: string
-  description?: string
-  highlights?: string[]
-}
-
-const entries: TimelineEntry[] = [
-  {
-    title: 'Software Engineer (Contract)',
-    org: 'Luris AI — startup building AI-driven workflow tools for attorneys',
-    period: 'June 2026 – September 2026',
-    highlights: [
-      'Rebuilt PostgreSQL row-level security and a shared FastAPI authorization layer across 3 services to enforce attorney conflict-of-interest rules under ABA Model Rule 1.6/1.9, shipping 7 production PRs and closing a critical WebSocket vulnerability that exposed private user notifications.',
-      'Merged 80+ PRs and closed 100+ issues across a Next.js frontend and 8 Python microservices in under 10 weeks, including tracking down a production login failure and a file-upload bug blocking large client document uploads.',
-      'Pioneered a multi-model AI planning workflow — separate architect, implementer, and adversarial-review passes — that caught security issues early and became the team’s standard process.',
-      'Built an automated Playwright suite covering 13 real-world failure scenarios in the client intake flow, catching 2 defects before they shipped.',
-      'Cleaned up a config-drift problem spanning 150+ files by consolidating hardcoded values into one source of truth, with CI checks to keep it from happening again.',
-    ],
-  },
-  {
-    title: 'Software Engineer',
-    org: 'Security Industry Specialists',
-    period: 'June 2023 – May 2025',
-    highlights: [
-      'Built a new HR onboarding/hiring app that cut candidate search time by 80% and automated 73% of manual hiring steps.',
-      'Built custom Salesforce apps with code-based Lightning Web Components so the HR director could pull job-site and employee stats directly.',
-      'Set up a library of reusable front-end components the team could pull from instead of rebuilding UI pieces each time.',
-      'Supported custom applications (HRIS, ATS, Expense Management, Onboarding, Hiring) for over 6,000 employees, maintaining legacy Scala services and containerized per-API deployments across a 7-person engineering team.',
-    ],
-  },
-  {
-    title: 'Software Engineering Management, General Business',
-    org: 'Gonzaga University',
-    period: 'May 2023',
-    description:
-      'Coursework: Software Development, Algorithms and Abstract Data Structures, Database Management Systems, UI/UX Design.',
-  },
-]
+const entries = [...workExperience, education]
 
 const item: Variants = {
   hidden: { opacity: 0, y: 24 },
