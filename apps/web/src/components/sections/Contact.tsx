@@ -6,6 +6,7 @@ import type { Variants } from 'framer-motion'
 import { Button, Container, Section } from '@/components/ui'
 import { SocialLinks } from '@/components/common/SocialLinks'
 import { trackCtaClick } from '@/lib/telemetry'
+import { apiUrl } from '@/lib/apiUrl'
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(200),
@@ -62,7 +63,7 @@ export function Contact() {
     setStatus('submitting')
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(apiUrl('/api/contact'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(result.data),
