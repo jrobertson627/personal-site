@@ -4,8 +4,6 @@ node_modules/
 # Build outputs
 dist/
 build/
-target/        # Rust/Tauri output
-src-tauri/target/
 
 # Environment variables
 .env
@@ -26,7 +24,7 @@ apps/api/data/
 .vscode/
 .idea/
 
-# Tauri / Vite cache
+# Vite cache
 .vite/
 
 # TypeScript project-reference build output/cache (apps/web's tsconfig.node.json
