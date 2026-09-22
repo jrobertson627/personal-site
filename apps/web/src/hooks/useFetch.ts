@@ -20,7 +20,7 @@ export function useFetch<T>(url: string): FetchState<T> & { retry: () => void } 
     let cancelled = false
     const key = `${url}#${attempt}`
 
-    fetch(url)
+    fetch(url, { signal: AbortSignal.timeout(10_000) })
       .then((res) => res.json() as Promise<ApiEnvelope<T>>)
       .then((json) => {
         if (cancelled) return
@@ -29,9 +29,10 @@ export function useFetch<T>(url: string): FetchState<T> & { retry: () => void } 
           state: json.success ? { status: 'success', data: json.data } : { status: 'error', error: json.error },
         })
       })
-      .catch(() => {
+      .catch((err) => {
         if (!cancelled) {
-          setResult({ key, state: { status: 'error', error: 'Something went wrong.' } })
+          const error = err instanceof Error && err.name === 'TimeoutError' ? 'Request timed out.' : 'Something went wrong.'
+          setResult({ key, state: { status: 'error', error } })
         }
       })
 

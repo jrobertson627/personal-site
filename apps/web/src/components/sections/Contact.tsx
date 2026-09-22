@@ -66,6 +66,7 @@ export function Contact() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(result.data),
+        signal: AbortSignal.timeout(10_000),
       })
       const json = await res.json()
 
@@ -79,9 +80,11 @@ export function Contact() {
     } catch (err) {
       setStatus('error')
       setFormError(
-        err instanceof Error
-          ? err.message
-          : 'Something went wrong. Please try again.',
+        err instanceof Error && err.name === 'TimeoutError'
+          ? 'Request timed out. Please try again.'
+          : err instanceof Error
+            ? err.message
+            : 'Something went wrong. Please try again.',
       )
     }
   }

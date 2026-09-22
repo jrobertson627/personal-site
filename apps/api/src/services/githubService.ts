@@ -68,7 +68,9 @@ export type GitHubActivityItem = {
 }
 
 async function githubFetch<T>(path: string): Promise<T> {
-  const res = await fetch(`${GITHUB_API}${path}`, { headers: HEADERS })
+  // Without a timeout, a hung GitHub API call would hang our own request
+  // handler indefinitely too.
+  const res = await fetch(`${GITHUB_API}${path}`, { headers: HEADERS, signal: AbortSignal.timeout(8_000) })
   if (!res.ok) {
     throw new Error(`GitHub API error: ${res.status} ${res.statusText}`)
   }

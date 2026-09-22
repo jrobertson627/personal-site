@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
 import { Home } from '@/pages/Home'
+import { NotFound } from '@/pages/NotFound'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ErrorBoundary } from '@/components/common/ErrorBoundary'
 import { reportWebVitals } from '@/lib/reportWebVitals'
@@ -38,6 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route path="/" element={<Home />} />
               <Route path="/blog" element={<BlogList />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </BrowserRouter>
