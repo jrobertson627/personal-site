@@ -1,4 +1,6 @@
+import type { ReactNode } from 'react'
 import { Button, Card, Container, Section } from '@/components/ui'
+import { Nav } from '@/components/layout/Nav'
 
 const neutralSwatches = [
   { label: 'neutral-50', className: 'bg-neutral-50' },
@@ -49,22 +51,87 @@ function Swatch({ label, className }: { label: string; className: string }) {
   )
 }
 
+function PlaceholderSection({
+  id,
+  title,
+  note,
+  muted,
+}: {
+  id: string
+  title: string
+  note: string
+  muted?: boolean
+}) {
+  return (
+    <Section id={id} muted={muted} className="flex min-h-[70vh] items-center">
+      <Container>
+        <h2 className="font-serif text-3xl font-semibold sm:text-4xl">{title}</h2>
+        <p className="mt-2 text-muted-foreground">{note}</p>
+      </Container>
+    </Section>
+  )
+}
+
+function StyleGuideSection({
+  title,
+  muted,
+  children,
+}: {
+  title: string
+  muted?: boolean
+  children: ReactNode
+}) {
+  return (
+    <Section muted={muted}>
+      <Container className="flex flex-col gap-6">
+        <h3 className="font-serif text-2xl font-semibold">{title}</h3>
+        {children}
+      </Container>
+    </Section>
+  )
+}
+
 export default function App() {
   return (
-    <main>
-      <Section>
-        <Container className="flex flex-col gap-4">
-          <span className="text-sm font-medium text-accent">Design system</span>
-          <h1 className="font-serif text-5xl font-semibold tracking-tight">Jessica Robertson</h1>
-          <p className="max-w-xl text-lg text-muted-foreground">
-            Style guide for issue #1 — tokens and primitives that everything else in the site will be built from.
-          </p>
-        </Container>
-      </Section>
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-foreground"
+      >
+        Skip to content
+      </a>
 
-      <Section muted>
-        <Container className="flex flex-col gap-6">
-          <h2 className="font-serif text-3xl font-semibold">Typography</h2>
+      <Nav />
+
+      <main id="main">
+        <Section id="home" className="flex min-h-[80vh] items-center">
+          <Container className="flex flex-col gap-4">
+            <span className="text-sm font-medium text-accent">Software Engineer</span>
+            <h1 className="font-serif text-5xl font-semibold tracking-tight">Jessica Robertson</h1>
+            <p className="max-w-xl text-lg text-muted-foreground">
+              Portfolio site, under construction — this hero is a placeholder until issue #6 builds the real one.
+            </p>
+          </Container>
+        </Section>
+
+        <PlaceholderSection id="about" title="About" note="Coming in issue #7." muted />
+        <PlaceholderSection id="skills" title="Skills" note="Coming in issue #8." />
+        <PlaceholderSection id="experience" title="Experience" note="Coming in issue #9." muted />
+        <PlaceholderSection id="projects" title="Projects" note="Coming in issue #11." />
+        <PlaceholderSection id="contact" title="Contact" note="Coming in issue #10." muted />
+
+        <Section>
+          <Container className="flex flex-col gap-2 border-t border-border pt-10">
+            <span className="text-sm font-medium text-accent">Design system reference</span>
+            <h2 className="font-serif text-3xl font-semibold">Tokens &amp; primitives</h2>
+            <p className="max-w-xl text-muted-foreground">
+              Living reference for the tokens and components from issue #1 — not part of the nav, kept here while
+              the real sections above are built out.
+            </p>
+          </Container>
+        </Section>
+
+        <StyleGuideSection title="Typography" muted>
           <div className="flex flex-col gap-4">
             {typeScale.map(({ label, className }) => (
               <div key={label} className="flex items-baseline gap-4">
@@ -79,12 +146,9 @@ export default function App() {
             <span className="pt-4 text-xs text-muted-foreground">font-sans (body / UI, default)</span>
             <p className="text-base">Inter carries body copy and interface text at a comfortable 1.6 line height.</p>
           </div>
-        </Container>
-      </Section>
+        </StyleGuideSection>
 
-      <Section>
-        <Container className="flex flex-col gap-6">
-          <h2 className="font-serif text-3xl font-semibold">Color</h2>
+        <StyleGuideSection title="Color">
           <div className="flex flex-col gap-3">
             <span className="text-sm font-medium text-muted-foreground">Neutral</span>
             <div className="grid grid-cols-4 gap-4 sm:grid-cols-6 lg:grid-cols-11">
@@ -122,12 +186,9 @@ export default function App() {
               </div>
             </div>
           </div>
-        </Container>
-      </Section>
+        </StyleGuideSection>
 
-      <Section muted>
-        <Container className="flex flex-col gap-6">
-          <h2 className="font-serif text-3xl font-semibold">Buttons</h2>
+        <StyleGuideSection title="Buttons" muted>
           <div className="flex flex-wrap items-center gap-4">
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
@@ -142,12 +203,9 @@ export default function App() {
             <Button size="lg">Large</Button>
           </div>
           <p className="text-sm text-muted-foreground">Tab to a button to see the focus ring.</p>
-        </Container>
-      </Section>
+        </StyleGuideSection>
 
-      <Section>
-        <Container className="flex flex-col gap-6">
-          <h2 className="font-serif text-3xl font-semibold">Cards</h2>
+        <StyleGuideSection title="Cards">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card className="flex flex-col gap-2">
               <h3 className="font-serif text-xl font-semibold">Card title</h3>
@@ -167,8 +225,8 @@ export default function App() {
               <p className="text-sm text-muted-foreground">This is where project/skill cards will live later.</p>
             </Card>
           </div>
-        </Container>
-      </Section>
-    </main>
+        </StyleGuideSection>
+      </main>
+    </>
   )
 }

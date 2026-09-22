@@ -10,7 +10,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
   ({ className, muted = false, ...props }, ref) => (
     <section
       ref={ref}
-      className={clsx('py-16 md:py-24', muted ? 'bg-muted' : 'bg-background', className)}
+      className={clsx('scroll-mt-16 py-16 md:py-24', muted ? 'bg-muted' : 'bg-background', className)}
       {...props}
     />
   ),
