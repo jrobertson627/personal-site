@@ -1,6 +1,7 @@
 // Single source of truth for resume content — consumed by the on-site
-// Experience/Skills sections AND the /resume page (and its generated PDF),
-// so there's exactly one place to update when a job or skill changes.
+// Experience/Skills sections, so there's exactly one place to update when
+// a job or skill changes. The downloadable resume itself (public/resume.pdf)
+// is a file Jessica maintains directly, not generated from this data.
 
 export type ExperienceEntry = {
   title: string
@@ -14,18 +15,6 @@ export type SkillCategory = {
   title: string
   skills: string[]
 }
-
-export const contact = {
-  name: 'Jessica Robertson',
-  title: 'Software Engineer',
-  email: 'jessicarobertson627@gmail.com',
-  githubUrl: 'https://github.com/jrobertson627',
-  linkedinUrl: 'https://www.linkedin.com/in/jessica-lani-robertson/',
-  siteUrl: 'https://jessicalrobertson.com',
-}
-
-export const summary =
-  "Software engineer with 3+ years building secure, scalable applications — from authorization architecture and microservices to the interfaces people actually use. Most recently rebuilt row-level security and a shared authorization layer at an AI-driven legal tech startup, merging 80+ PRs across a Next.js frontend and eight Python microservices."
 
 export const skillCategories: SkillCategory[] = [
   {

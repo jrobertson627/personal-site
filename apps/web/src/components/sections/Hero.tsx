@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
-import { Link } from 'react-router-dom'
 import { Container, Section } from '@/components/ui'
 import { buttonStyles } from '@/components/ui/buttonStyles'
 import { SocialLinks } from '@/components/common/SocialLinks'
@@ -78,13 +77,15 @@ export function Hero() {
             >
               Get in touch
             </a>
-            <Link
-              to="/resume"
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => trackCtaClick('hero_resume')}
               className={buttonStyles({ variant: 'ghost', size: 'lg' })}
             >
               Resume
-            </Link>
+            </a>
           </motion.div>
 
           <motion.div variants={item}>
