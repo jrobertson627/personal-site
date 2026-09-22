@@ -78,6 +78,13 @@ export function Projects() {
 
             <p className="text-muted-foreground">{selectedProject.description}</p>
 
+            {selectedProject.architecture && (
+              <div className="flex flex-col gap-1">
+                <h4 className="text-sm font-semibold text-foreground">Architecture</h4>
+                <p className="text-sm text-muted-foreground">{selectedProject.architecture}</p>
+              </div>
+            )}
+
             <ul className="flex flex-wrap gap-2">
               {selectedProject.tech.map((tech) => (
                 <li
@@ -89,16 +96,29 @@ export function Projects() {
               ))}
             </ul>
 
-            {selectedProject.href && (
-              <a
-                href={selectedProject.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={buttonStyles({ variant: 'primary', size: 'md', className: 'self-start' })}
-              >
-                View on GitHub
-              </a>
-            )}
+            <div className="flex flex-wrap gap-3">
+              {selectedProject.href && (
+                <a
+                  href={selectedProject.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonStyles({ variant: 'primary', size: 'md' })}
+                >
+                  View on GitHub
+                </a>
+              )}
+              {selectedProject.demoHref && (
+                <a
+                  href={selectedProject.demoHref}
+                  target={selectedProject.demoHref.startsWith('#') ? undefined : '_blank'}
+                  rel={selectedProject.demoHref.startsWith('#') ? undefined : 'noopener noreferrer'}
+                  onClick={() => setSelectedId(null)}
+                  className={buttonStyles({ variant: 'secondary', size: 'md' })}
+                >
+                  Live demo
+                </a>
+              )}
+            </div>
           </>
         )}
       </Modal>

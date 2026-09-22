@@ -1,9 +1,14 @@
 import { Button, Card } from '@/components/ui'
 import type { Project } from '@/types/project'
+import { projectVisuals } from './ProjectVisuals'
 
 export function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
   return (
-    <Card className="flex flex-col gap-3">
+    <Card className="group flex flex-col gap-3 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-md">
+      {projectVisuals[project.id] && (
+        <div className="overflow-hidden rounded-md border border-border">{projectVisuals[project.id]}</div>
+      )}
+
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-serif text-xl font-semibold">{project.title}</h3>
         {project.status === 'current' && (
