@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
 import { Home } from '@/pages/Home'
-import { BlogList } from '@/pages/BlogList'
-import { BlogPost } from '@/pages/BlogPost'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ErrorBoundary } from '@/components/common/ErrorBoundary'
 import { reportWebVitals } from '@/lib/reportWebVitals'
 import { trackError } from '@/lib/telemetry'
 import './index.css'
+
+// Home stays eagerly loaded — it's the primary landing page, and lazy
+// loading it would add an unwanted flash of the loading fallback on first
+// paint. BlogPost in particular pulls in react-markdown, remark-gfm, and
+// rehype-highlight — real bundle weight that most visitors (who land on
+// Home and never visit /blog) shouldn't have to download up front.
+const BlogList = lazy(() => import('@/pages/BlogList').then((m) => ({ default: m.BlogList })))
+const BlogPost = lazy(() => import('@/pages/BlogPost').then((m) => ({ default: m.BlogPost })))
 
 window.addEventListener('error', (event) => {
   trackError(event.message, event.error?.stack)

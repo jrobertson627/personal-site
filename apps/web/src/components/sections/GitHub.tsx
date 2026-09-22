@@ -9,6 +9,18 @@ function SkeletonBlock({ className }: { className?: string }) {
   return <div className={`animate-pulse rounded-md bg-background ${className ?? ''}`} />
 }
 
+function RetryButton({ onRetry }: { onRetry: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onRetry}
+      className="self-start text-sm font-medium text-accent underline underline-offset-2 hover:text-accent-hover"
+    >
+      Try again
+    </button>
+  )
+}
+
 function ProfilePanel() {
   const state = useFetch<GitHubProfile>('/api/github/profile')
 
@@ -31,14 +43,17 @@ function ProfilePanel() {
     return (
       <Card className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground">Couldn&apos;t load GitHub profile right now.</p>
-        <a
-          href={GITHUB_PROFILE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-accent underline underline-offset-2"
-        >
-          View on GitHub
-        </a>
+        <div className="flex items-center gap-4">
+          <RetryButton onRetry={state.retry} />
+          <a
+            href={GITHUB_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground"
+          >
+            View on GitHub
+          </a>
+        </div>
       </Card>
     )
   }
@@ -103,7 +118,12 @@ function ActivityPanel() {
         </div>
       )}
 
-      {state.status === 'error' && <p className="text-sm text-muted-foreground">Couldn&apos;t load recent activity.</p>}
+      {state.status === 'error' && (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-muted-foreground">Couldn&apos;t load recent activity.</p>
+          <RetryButton onRetry={state.retry} />
+        </div>
+      )}
 
       {state.status === 'success' &&
         (state.data.length === 0 ? (
@@ -184,7 +204,10 @@ export function GitHub() {
         )}
 
         {reposState.status === 'error' && (
-          <p className="text-sm text-muted-foreground">Couldn&apos;t load repositories right now.</p>
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-muted-foreground">Couldn&apos;t load repositories right now.</p>
+            <RetryButton onRetry={reposState.retry} />
+          </div>
         )}
 
         {reposState.status === 'success' && (

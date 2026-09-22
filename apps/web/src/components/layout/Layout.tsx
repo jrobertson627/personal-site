@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Nav } from './Nav'
+import { RouteLoadingFallback } from '@/components/common/RouteLoadingFallback'
 import { trackPageview } from '@/lib/telemetry'
 
 export function Layout() {
@@ -33,7 +34,9 @@ export function Layout() {
       <Nav />
 
       <main id="main">
-        <Outlet />
+        <Suspense fallback={<RouteLoadingFallback />}>
+          <Outlet />
+        </Suspense>
       </main>
     </>
   )
