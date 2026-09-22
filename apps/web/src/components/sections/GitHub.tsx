@@ -73,7 +73,7 @@ function ProfilePanel() {
           className="h-14 w-14 rounded-full"
         />
         <div>
-          <p className="font-serif text-lg font-semibold">{profile.name ?? profile.login}</p>
+          <h3 className="font-serif text-lg font-semibold">{profile.name ?? profile.login}</h3>
           <a
             href={profile.htmlUrl}
             target="_blank"
@@ -153,14 +153,11 @@ function ActivityPanel() {
 function RepoCard({ repo }: { repo: GitHubRepo }) {
   return (
     <Card className="flex flex-col gap-3">
-      <a
-        href={repo.htmlUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="font-serif text-lg font-semibold transition-colors hover:text-accent"
-      >
-        {repo.name}
-      </a>
+      <h3 className="font-serif text-lg font-semibold">
+        <a href={repo.htmlUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
+          {repo.name}
+        </a>
+      </h3>
       {repo.description && <p className="text-sm text-muted-foreground">{repo.description}</p>}
       <div className="mt-auto flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
         {repo.language && (

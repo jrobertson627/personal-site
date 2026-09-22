@@ -36,7 +36,15 @@ export function BlogPost() {
         </div>
 
         <div className="prose-content">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+            // The post title above is already the page's h1 — remap any
+            // markdown h1 down to h2 so a post can't accidentally create a
+            // second h1 and break the page's heading hierarchy. h2 and
+            // deeper are already correctly nested under it as-is.
+            components={{ h1: (props) => <h2 {...props} /> }}
+          >
             {post.content}
           </ReactMarkdown>
         </div>
