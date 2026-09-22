@@ -42,6 +42,12 @@ Two Render services deploy from this repo's `main` branch:
       worse than the 404 it replaces and easy to miss if you only check
       the status code. Verify with the smoke test below, which checks
       body size, not just status.
+- [ ] **`VITE_API_URL`** is set on `personal-site-web` to
+      `https://api.jessicalrobertson.com` (see the env var table below).
+      This is a **build-time** var — Vite inlines it when `npm run build`
+      runs, so setting/changing it requires a new build of
+      `personal-site-web` to take effect, not just a redeploy of the
+      already-built static files.
 
 ## Required/expected environment variables (`personal-site` service)
 
@@ -59,6 +65,12 @@ Two Render services deploy from this repo's `main` branch:
 `apps/api/src/config/env.ts` validates all of these at process startup with
 zod and exits with a clear error if one is malformed — check Render's deploy
 logs first if a deploy comes up unhealthy.
+
+## Required/expected environment variables (`personal-site-web` service)
+
+| Var | Required | Notes |
+|---|---|---|
+| `VITE_API_URL` | prod | the API's absolute origin; see `apps/web/.env.example`. Build-time only — a change here needs a rebuild, not just a redeploy |
 
 ## Porkbun DNS (jessicalrobertson.com)
 
@@ -90,19 +102,19 @@ What's already in place, so the checklist below doesn't get re-litigated:
   and GitHub emails the repo owner automatically when a scheduled workflow
   fails.
 
-**Known bug (unresolved)**: the frontend calls the API via relative URLs
+**Fixed**: the frontend used to call the API via relative URLs
 (`/api/github/profile`, `/api/contact`, `/api/telemetry/event`), which
 resolve against the frontend's own origin (`jessicalrobertson.com`, the
 static site) rather than the API's actual origin
 (`api.jessicalrobertson.com`, a separate Render service). There is no
 proxy between the two, so every API-backed feature — GitHub section,
-telemetry, the contact form — has never actually worked in production,
-not just the GitHub section. The API's CORS config (`ALLOWED_ORIGINS`)
-already anticipates cross-origin calls from the frontend's domain, which
-is a strong signal this was the intended design and the frontend simply
-never got updated to call the API's absolute URL. Needs a fix (an
-environment-aware API base URL — relative in dev so Vite's proxy still
-works, absolute in production) before this is resolved.
+telemetry, the contact form — silently never worked in production, not
+just the GitHub section. `src/lib/apiUrl.ts` now resolves an
+environment-aware base URL (relative in dev, so Vite's own proxy keeps
+working; `VITE_API_URL`'s absolute origin in production) and every
+`fetch`/`sendBeacon` call site uses it. Requires `VITE_API_URL` to
+actually be set on `personal-site-web` (see above) — without it, this
+falls back to the old relative-path behavior.
 
 **Known limitation**: `personal-site` has no persistent disk, so
 `apps/api/data/telemetry.jsonl` (and therefore `/api/telemetry/summary`) is
@@ -124,6 +136,12 @@ curl -s https://api.jessicalrobertson.com/api/github/profile
 
 The `/blog` check exists because a broken SPA rewrite rule returns a
 `200` with an empty body, not a 4xx — checking status code alone isn't
-enough. The last command hits the API's own domain directly rather than
-`jessicalrobertson.com/api/...`, since that path doesn't currently reach
-the API at all (see the known bug above).
+enough. The last command hits the API's own domain directly, which is a
+reasonable healthcheck on its own — but the thing that actually matters
+for real visitors is whether the *deployed frontend* is configured to
+reach it. Confirm that separately by loading
+https://jessicalrobertson.com in an actual browser, opening the Network
+tab, and checking that the "On GitHub" section's requests go to
+`api.jessicalrobertson.com`, not back to `jessicalrobertson.com/api/...`
+— a curl against the API alone can't catch a missing/stale
+`VITE_API_URL` on the frontend build.

@@ -1,6 +1,7 @@
 // Client for our own self-hosted telemetry endpoint (#21) — no third-party
 // script, no cookies. Uses sendBeacon where available so tracking never
 // blocks navigation or page unload.
+import { apiUrl } from './apiUrl'
 
 type TelemetryEvent =
   | { type: 'pageview'; path: string; referrer?: string }
@@ -11,7 +12,7 @@ type TelemetryEvent =
 function send(event: TelemetryEvent) {
   try {
     const body = JSON.stringify(event)
-    const url = '/api/telemetry/event'
+    const url = apiUrl('/api/telemetry/event')
 
     if (navigator.sendBeacon) {
       navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }))

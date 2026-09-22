@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { apiUrl } from '@/lib/apiUrl'
 
 type FetchState<T> = { status: 'loading' } | { status: 'success'; data: T } | { status: 'error'; error: string }
 
@@ -20,7 +21,7 @@ export function useFetch<T>(url: string): FetchState<T> & { retry: () => void } 
     let cancelled = false
     const key = `${url}#${attempt}`
 
-    fetch(url, { signal: AbortSignal.timeout(10_000) })
+    fetch(apiUrl(url), { signal: AbortSignal.timeout(10_000) })
       .then((res) => res.json() as Promise<ApiEnvelope<T>>)
       .then((json) => {
         if (cancelled) return
